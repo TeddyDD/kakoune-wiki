@@ -9,9 +9,9 @@ Personal wiki plugin for [**Kakoune**](http://kakoune.org/)
 Personal wiki is collection of interconnected notes you can store your
 knowledge in. I wanted to create plugin for Kakoune that would make creating
 such wiki as hassle-free as possible. My main issue was manual creation of
-new pages and writing Markdown links by hand. When I'v got an idea I wanted
+new pages and writing Markdown links by hand. When I'v got an idea I want
 to write it down right now, without navigating file system.  I want to be
-able to create and link other notes during writing.
+able to create and link other notes during writing as well.
 
 ## Features
 
@@ -53,7 +53,7 @@ Now you can edit index page using `wiki` command. You can press `TAB` for comple
 :wiki index<TAB>
 ```
 
-Let's add some content. We can create new page using `@pagename` syntax.
+Let's add some content. You can create new page using `@pagename` syntax.
 Just type @ character and desired filename, then press enter. If file doesn't
 exist it will be created in wiki directory. `@filename` will be expanded to
 `[filename](filename.md)`
