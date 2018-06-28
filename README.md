@@ -19,6 +19,7 @@ able to create and link other notes during writing as well.
 the file system
 - quickly jump between wiki pages. Just point on link and press enter
 - create interconnected pages with `@pagename` syntax that expands to standard Markdown links
+- toggle Markdown checkboxes with `<ret>` key in normal mode
 - wiki is just bunch of Markdown files, you can process/edit them further
 with tools like [pandoc](https://pandoc.org/),
 [MdWiki](http://dynalon.github.io/mdwiki/),
