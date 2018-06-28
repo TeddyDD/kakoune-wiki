@@ -29,6 +29,7 @@ define-command wiki_enable %{
     }
     hook buffer NormalKey <ret> -group wiki %{
 		wiki_follow_link
+		wiki_toggle_checkbox
     }
 }
 
@@ -64,4 +65,16 @@ define-command wiki_follow_link \
         evaluate-commands -try-client %opt{jumpclient} edit -existing %sh{ echo $kak_selection }
         focus %opt{jumpclient}
 	}}
+}
+
+define-command wiki_toggle_checkbox \
+-docstring "Toggle markdown checkbox in current line" %{
+    try %{
+        try %{
+            execute-keys -draft %{
+        		<esc><space>;xs-\s\[\s\]<ret><a-i>[rX
+        }} catch %{
+            execute-keys -draft %{
+        		<esc><space>;xs-\s\[X\]<ret><a-i>[r<space>
+    }}}
 }
