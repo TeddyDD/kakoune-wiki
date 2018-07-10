@@ -1,4 +1,4 @@
-# kakoune-wiki
+﻿# kakoune-wiki
 
 ![icon](kakoune-wiki.png)
 
@@ -9,7 +9,7 @@ Personal wiki plugin for [**Kakoune**](http://kakoune.org/)
 Personal wiki is collection of interconnected notes you can store your
 knowledge in. I wanted to create plugin for Kakoune that would make creating
 such wiki as hassle-free as possible. My main issue was manual creation of
-new pages and writing Markdown links by hand. When I'v got an idea I want
+new pages and writing Markdown links by hand. When I've got an idea I want
 to write it down right now, without navigating file system.  I want to be
 able to create and link other notes during writing as well.
 
@@ -19,7 +19,7 @@ able to create and link other notes during writing as well.
 the file system
 - quickly jump between wiki pages. Just point on link and press enter
 - create interconnected pages with `@pagename` syntax that expands to standard Markdown links
-- toggle Markdown checkboxes with `<ret>` key in normal mode
+- toggle Markdown check-boxes with `<ret>` key in normal mode
 - wiki is just bunch of Markdown files, you can process/edit them further
 with tools like [pandoc](https://pandoc.org/),
 [MdWiki](http://dynalon.github.io/mdwiki/),
