@@ -60,7 +60,7 @@ selection must be somewhere on @tag } %{
     }}
 }
 
-define-command -params 1 \
+define-command -params 1 -hidden \
 -docstring %{ wiki_new_page [name]: create new wiki page in wiki_path if not exists } \
 wiki_new_page %{
     %sh{
