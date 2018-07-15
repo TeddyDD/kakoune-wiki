@@ -53,7 +53,11 @@ selection must be somewhere on @tag } %{
 define-command -params 1 \
 -docstring %{ wiki_new_page [name]: create new wiki page in wiki_path if not exists } \
 wiki_new_page %{
-    	%sh{ touch "$kak_opt_wiki_path/$1.md" }
+    %sh{
+        dir="$(dirname $kak_opt_wiki_path/$1.md)"
+        mkdir -p "$dir"
+        touch "$kak_opt_wiki_path/$1.md"
+    }
 }
 
 define-command wiki_follow_link \
