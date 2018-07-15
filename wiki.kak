@@ -46,8 +46,8 @@ define-command wiki_disable %{
 
 define-command wiki_expand_tag \
 -docstring %{ Expands tag from @filename form to [filename](filename.md)
-Creates empty markdown file in wiki_path if not exist
-selection must be somewhere on @tag } %{
+Creates empty markdown file in wiki_path if not exist. Selection must be
+somewhere on @tag and @tag should not contain extension } %{
     evaluate-commands %{ %sh{
         this="$kak_buffile"
         tag=$(echo $kak_selection | sed -e 's/^\@//')
