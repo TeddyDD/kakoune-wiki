@@ -1,5 +1,6 @@
 declare-option -docstring %{ Path to wiki directory } str wiki_path
 
+declare-option -hidden str wiki_relative_patch_program %{ perl -e 'use File::Spec; print File::Spec->abs2rel(@ARGV) . "\n"' }
 define-command -hidden -params 1 wiki_setup %{
 	%sh{
 		echo "set-option global wiki_path $1"
