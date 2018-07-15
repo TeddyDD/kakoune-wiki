@@ -1,6 +1,8 @@
 declare-option -docstring %{ Path to wiki directory } str wiki_path
 
-declare-option -hidden str wiki_relative_patch_program %{ perl -e 'use File::Spec; print File::Spec->abs2rel(@ARGV) . "\n"' }
+# program that outputs relative path given two absolute as params
+declare-option -hidden str wiki_relative_path_program %{ perl -e 'use File::Spec; print File::Spec->abs2rel(@ARGV) . "\n"' }
+
 define-command -hidden -params 1 wiki_setup %{
 	%sh{
 		echo "set-option global wiki_path $1"
@@ -50,7 +52,7 @@ selection must be somewhere on @tag } %{
         this="$kak_buffile"
         tag=$(echo $kak_selection | sed -e 's/^\@//')
         other="$kak_opt_wiki_path/$tag.md"
-        relative=$(eval "$kak_opt_wiki_relative_patch_program" "$other" $(dirname "$this"))
+        relative=$(eval "$kak_opt_wiki_relative_path_program" "$other" $(dirname "$this"))
         # sanity chceck
         echo execute-keys -draft '<a-k>^@[^@]+'
         echo execute-keys "c[$tag]($relative)<esc>"
