@@ -24,7 +24,7 @@ the file system
 with tools like [pandoc](https://pandoc.org/),
 [MdWiki](http://dynalon.github.io/mdwiki/),
 [markor](https://github.com/gsantner/markor) or any text editor. No vendor lock-ins
-- minimal and simple — only essential features, script around 60 LOC
+- minimal and simple — only essential features, script around 100 LOC
 
 ## Installation
 
@@ -37,33 +37,78 @@ Then you have to choose directory for your wiki. Call following command from
 your kakrc:
 
 ```
-wiki_setup `~/my/wiki/directory`
+wiki_setup `/home/user/my/wiki/directory`
 ```
+
+**This plugin was tested on Kakoune v2018.04.13** on Linux. In case of any
+problems feel free to open an issue. I do not support builds from Kakoune
+master branch, **only last stable releases of Kakoune will be supported**.
 
 ## Usage
 
-You probably want some kind of index page. Create it manually using wiki_new_page command:
+### Create new page
+
+To create wiki page use `wiki` command. Provide file name as parameter:
 
 ```
-:wiki_new_page index
+wiki cookies.md
 ```
 
-Now you can edit index page using `wiki` command. You can press `TAB` for completion:
-
+This command creates file `cookies.md` in your wiki directory. You can also use
+subdirectories for organization purpose. To create new page in subdirectory:
 ```
-:wiki index<TAB>
-```
-
-Let's add some content. You can create new page using `@pagename` syntax.
-Just type @ character and desired filename, then press enter. If file doesn't
-exist it will be created in wiki directory. `@filename` will be expanded to
-`[filename](filename.md)`
-
-```
-# Wiki
-
-## Cooking
-- @cookies
+wiki recipes/cookies.md
 ```
 
-To edit new page about :cookie: put selection anywhere in the link and press enter.
+Note that path is always relative to the wiki root directory.
+
+### Edit existing page
+
+To edit wiki page use (you guessed it) `wiki` command. You can press `TAB` key for autocompletion:
+
+```
+wiki recipes/<TAB> # cycle through available pages
+```
+
+### Link pages
+
+To reference other wiki page use `@tag` syntax. Type @cookies<ret> in insert
+mode to create standard Markdown link to wiki page `cookies.md` in your wiki
+directory. As alternative you can use `wiki_expand_tag` command in normal
+mode when whole `@tag` is selected.  You can use subdirectories as well,
+path is always relative to **wiki root directory**, however expanded link
+**will be relative to currently edited wiki page**:
+
+```
+# editing recipes/cookies.md
+@chocolate<ret> 
+expands to
+[chocolate](../chocolate.md)
+```
+
+If page referenced by `@tag` does not exist it will be created. Directories
+will be created as well.
+
+### Checkboxes
+
+You can toogle Markdown checkboxes on and off using `<ret>` key in normal mode or `wiki_toogle_checkbox` command:
+
+```
+# TODO
+
+- [ ] foo
+- [ ] bar # press <ret>
+- [X] bar # result
+
+```
+
+## Changelog 
+
+- 0.1
+	initial relese
+- 0.2 
+	ADD toogle checkbox feature
+- 0.3 2018-07-15
+	ADD support for nested directories	
+	REMOVE hide wiki_new_page command, use wiki instead
+	CHANGE wiki command use relative paths now
