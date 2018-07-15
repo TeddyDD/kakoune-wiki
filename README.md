@@ -1,4 +1,4 @@
-﻿# kakoune-wiki
+# kakoune-wiki
 
 ![icon](kakoune-wiki.png)
 
@@ -72,7 +72,7 @@ wiki recipes/<TAB> # cycle through available pages
 
 ### Link pages
 
-To reference other wiki page use `@tag` syntax. Type @cookies<ret> in insert
+To reference other wiki page use `@tag` syntax. Type `@cookies<ret>` in insert
 mode to create standard Markdown link to wiki page `cookies.md` in your wiki
 directory. As alternative you can use `wiki_expand_tag` command in normal
 mode when whole `@tag` is selected.  You can use subdirectories as well,
@@ -104,11 +104,11 @@ You can toogle Markdown checkboxes on and off using `<ret>` key in normal mode o
 
 ## Changelog 
 
-- 0.1
-	initial relese
-- 0.2 
-	ADD toogle checkbox feature
-- 0.3 2018-07-15
-	ADD support for nested directories	
-	REMOVE hide wiki_new_page command, use wiki instead
-	CHANGE wiki command use relative paths now
+- 0.1:
+	- initial relese
+- 0.2:
+	- ADD toogle checkbox feature
+- 0.3 2018-07-15:
+	- ADD support for nested directories	
+	- REMOVE hide wiki_new_page command, use wiki instead
+	- CHANGE wiki command use relative paths now
