@@ -43,11 +43,16 @@ define-command wiki_expand_tag \
 -docstring %{ Expands tag from @filename form to [filename](filename.md)
 Creates empty markdown file in wiki_path if not exist
 selection must be somewhere on @tag } %{
-	execute-keys -draft %{
-        <a-i>Ws[^@]+<ret>yi<backspace>[<esc>a]<esc>a(<esc>pA.md)<esc>
-        :wiki_new_page <c-r>"<ret>
-	}
-	execute-keys 'f);'
+    evaluate-commands %{ %sh{
+        this="$kak_buffile"
+        tag=$(echo $kak_selection | sed -e 's/^\@//')
+        other="$kak_opt_wiki_path/$tag.md"
+        relative=$(eval "$kak_opt_wiki_relative_patch_program" "$other" $(dirname "$this"))
+        # sanity chceck
+        echo execute-keys -draft '<a-k>^@[^@]+'
+        echo execute-keys "c[$tag]($relative)<esc>"
+        echo wiki_new_page "$tag"
+    }}
 }
 
 define-command -params 1 \
