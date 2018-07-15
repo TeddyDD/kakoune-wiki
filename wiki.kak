@@ -9,11 +9,14 @@ define-command -hidden -params 1 wiki_setup %{
 }
 
 define-command wiki -params 1  \
--docstring %{ wiki [file]: Edit existing wiki page. } \
--shell-candidates %{ find $kak_opt_wiki_path -type f -name '*.md' }  \
-%{
-        edit %arg{1}
-}
+-docstring %{ wiki [file]: Edit or create wiki page } \
+-shell-candidates %{ cd $kak_opt_wiki_path; find . -type f -name '*.md' | sed -e 's/^\.\///' }  \
+%{ evaluate-commands %{ %sh{
+    if [ ! -e "$kak_opt_wiki_path/$1" ]; then
+        echo "wiki_new_page $(basename "$1" .md )"
+    fi
+    echo edit \"$kak_opt_wiki_path/$1\"
+}}}
 
 define-command wiki_enable %{
     add-highlighter buffer group wiki
