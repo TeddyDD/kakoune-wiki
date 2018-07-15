@@ -22,7 +22,7 @@ define-command wiki -params 1  \
 
 define-command wiki_enable %{
     add-highlighter buffer group wiki
-    add-highlighter buffer/wiki regex '\B@\w+' 0:link
+    add-highlighter buffer/wiki regex '\B@\S+' 0:link
     add-highlighter buffer/wiki regex '\[\w+\]' 0:link
     hook buffer InsertChar \n -group wiki %{
         evaluate-commands %{ try %{ 
