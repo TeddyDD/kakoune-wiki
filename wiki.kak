@@ -11,13 +11,17 @@ define-command -hidden -params 1 wiki_setup %{
 }
 
 define-command wiki -params 1  \
--docstring %{ wiki [file]: Edit or create wiki page } \
+-docstring %{ wiki [file.md]: Edit or create wiki page } \
 -shell-candidates %{ cd $kak_opt_wiki_path; find . -type f -name '*.md' | sed -e 's/^\.\///' }  \
 %{ evaluate-commands %{ %sh{
-    if [ ! -e "$kak_opt_wiki_path/$1" ]; then
-        echo "wiki_new_page $(basename "$1" .md )"
+	dir="$(dirname $1)"
+	base="$(basename $1 .md)" #no extension
+	normalized="$base.md"
+	path="$dir/$normalized"
+    if [ ! -e "$kak_opt_wiki_path/$path" ]; then
+        echo "wiki_new_page \"$dir/$base\""
     fi
-    echo edit \"$kak_opt_wiki_path/$1\"
+    echo edit \"$kak_opt_wiki_path/$path\"
 }}}
 
 define-command wiki_enable %{
