@@ -37,7 +37,7 @@ Then you have to choose directory for your wiki. Call following command from
 your kakrc:
 
 ```
-wiki_setup `/home/user/my/wiki/directory`
+wiki_setup "/home/user/my/wiki/directory"
 ```
 
 **This plugin was tested on Kakoune v2018.04.13** on Linux. In case of any
@@ -72,22 +72,41 @@ wiki recipes/<TAB> # cycle through available pages
 
 ### Link pages
 
-To reference other wiki page use `@tag` syntax. Type `@cookies<ret>` in insert
+To reference other wiki page use `@+tag` syntax. Type `@+cookies<ret>` in insert
 mode to create standard Markdown link to wiki page `cookies.md` in your wiki
 directory. As alternative you can use `wiki_expand_tag` command in normal
-mode when whole `@tag` is selected.  You can use subdirectories as well,
+mode when whole `@+tag` is selected.  You can use subdirectories as well,
 path is always relative to **wiki root directory**, however expanded link
 **will be relative to currently edited wiki page**:
+If page referenced by `@tag` does not exist it will be created. Directories
+will be created as well.
 
 ```
 # editing recipes/cookies.md
-@chocolate<ret> 
+@+chocolate<ret> 
 expands to
 [chocolate](../chocolate.md)
 ```
 
-If page referenced by `@tag` does not exist it will be created. Directories
-will be created as well.
+### Link pictures
+
+You can create links to pictures just as easily - use `@!pic.png` format.
+Picture links work the same as normal links. 
+
+```
+@!cute_kitteh.png<ret>
+expands to
+![cute_kitteh.png](cute_kitteh.png)
+```
+
+Picture files won't be created if not exist, but if you do have the picture, you can use the
+next feature:
+
+### Competation
+
+Both link types are autocompleted from wiki folder. You need to type just the first two letter of tag
+and a window with completions will pop up.
+
 
 ### Checkboxes
 
