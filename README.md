@@ -40,9 +40,11 @@ your kakrc:
 wiki_setup `/home/user/my/wiki/directory`
 ```
 
-**This plugin was tested on Kakoune v2018.04.13** on Linux. In case of any
-problems feel free to open an issue. I do not support builds from Kakoune
-master branch, **only last stable releases of Kakoune will be supported**.
+**This plugin was tested on Kakoune v2018.09.04** on Linux. In case of
+any problems feel free to open an issue. I do not support builds from
+Kakoune master branch, **only last stable releases of Kakoune will be
+supported**. Releases are tagged with compatible Kakoune version, check
+`git log`.
 
 ## Usage
 
@@ -112,3 +114,7 @@ You can toogle Markdown checkboxes on and off using `<ret>` key in normal mode o
 	- ADD support for nested directories	
 	- REMOVE hide wiki_new_page command, use wiki instead
 	- CHANGE wiki command use relative paths now
+- 0.4 2018-09-06:
+	- CHANGE update to Kakoune v2018.09.04
+
+
