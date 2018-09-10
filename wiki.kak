@@ -29,7 +29,7 @@ define-command wiki_enable %{
     add-highlighter buffer/wiki group
     add-highlighter buffer/wiki/tag regex '\B@\S+' 0:link
     add-highlighter buffer/wiki/link regex '\[\w+\]' 0:link
-    hook buffer InsertChar \n -group wiki %{
+    hook buffer InsertKey '<ret>' -group wiki %{
         evaluate-commands %{ try %{ 
             execute-keys -draft %{
                 2h<a-b><a-k>\A@\w+<ret>
