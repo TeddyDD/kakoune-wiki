@@ -59,7 +59,7 @@ somewhere on @tag and @tag should not contain extension } %{
         other="$kak_opt_wiki_path/$tag.md"
         relative=$(eval "$kak_opt_wiki_relative_path_program" "$other" $(dirname "$this"))
         # sanity chceck
-        echo "execute-keys  -draft '<a-k>^@[^@]+<ret>'"
+        echo "execute-keys  -draft '<a-k>\A@[^@]+<ret>'"
         echo "execute-keys \"c[$tag]($relative)<esc>\""
         echo "wiki_new_page \"$tag\""
     }
