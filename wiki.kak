@@ -77,14 +77,14 @@ wiki_new_page %{
 
 define-command wiki_follow_link \
 -docstring %{ Follow markdown link and open file if exists } %{
-    evaluate-commands %{ try %{
+    evaluate-commands %{ 
         execute-keys %{
             <esc><a-a>c\[,\)<ret><a-:>
             <a-i>b
         }
         evaluate-commands -try-client %opt{jumpclient} edit -existing %{ %sh{ echo $kak_selection }}
-        focus %opt{jumpclient}
-    }}
+        try %{  focus %opt{jumpclient} }
+    }
 }
 
 define-command wiki_toggle_checkbox \
