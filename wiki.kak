@@ -38,9 +38,9 @@ define-command wiki_enable %{
             execute-keys <esc>hi
         } }
     }
-    hook buffer NormalKey <ret> -group wiki %{
-        wiki_follow_link
-        wiki_toggle_checkbox
+    hook buffer NormalKey '<ret>' -group wiki %{
+        try %{ wiki_follow_link }
+        try %{ wiki_toggle_checkbox }
     }
 }
 
