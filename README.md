@@ -116,5 +116,8 @@ You can toogle Markdown checkboxes on and off using `<ret>` key in normal mode o
 	- CHANGE wiki command use relative paths now
 - 0.4 2018-09-06:
 	- CHANGE update to Kakoune v2018.09.04
-
+- 0.5 2018-09-11
+	- FIX tag expansion in middle of the line
+	- FIX new line causing unwanted tag expansion
+	- FIX refactoring of try statements in NormalMode hooks and commands
 
