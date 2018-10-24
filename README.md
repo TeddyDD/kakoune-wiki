@@ -120,4 +120,5 @@ You can toogle Markdown checkboxes on and off using `<ret>` key in normal mode o
 	- FIX tag expansion in middle of the line
 	- FIX new line causing unwanted tag expansion
 	- FIX refactoring of try statements in NormalMode hooks and commands
-
+- master
+    - CHANGE new directory layout (breaking: update path in source command in `kakrc`)
