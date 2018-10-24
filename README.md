@@ -30,8 +30,9 @@ with tools like [pandoc](https://pandoc.org/),
 
 You can either:
 
-- load `wiki.kak` from your `kakrc`: `source path/to/wiki.kak`
-- put `wiki.kak` in your autoloads directory `~/.config/kak/autoload/`
+- load `rc/wiki.kak` from your `kakrc`: `source path/to/rc/wiki.kak`
+- put `rc/wiki.kak` in your autoloads directory `~/.config/kak/autoload/`
+- use [plug.kak] - plugin manager
 
 Then you have to choose directory for your wiki. Call following command from
 your kakrc:
@@ -122,3 +123,5 @@ You can toogle Markdown checkboxes on and off using `<ret>` key in normal mode o
 	- FIX refactoring of try statements in NormalMode hooks and commands
 - master
     - CHANGE new directory layout (breaking: update path in source command in `kakrc`)
+
+[plug.kak]: https://github.com/andreyorst/plug.kak
