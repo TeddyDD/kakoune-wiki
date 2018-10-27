@@ -94,7 +94,7 @@ will be created as well.
 
 ### Checkboxes
 
-You can toogle Markdown checkboxes on and off using `<ret>` key in normal mode or `wiki_toogle_checkbox` command:
+You can toggle Markdown checkboxes on and off using `<ret>` key in normal mode or `wiki_toggle_checkbox` command:
 
 ```
 # TODO
@@ -108,20 +108,24 @@ You can toogle Markdown checkboxes on and off using `<ret>` key in normal mode o
 ## Changelog 
 
 - 0.1:
-	- initial relese
+	- initial release
 - 0.2:
-	- ADD toogle checkbox feature
+	- _ADD_ toggle checkbox feature
 - 0.3 2018-07-15:
-	- ADD support for nested directories	
-	- REMOVE hide wiki_new_page command, use wiki instead
-	- CHANGE wiki command use relative paths now
+	- _ADD_ support for nested directories	
+	- _REMOVE_ hide wiki_new_page command, use wiki instead
+	- _CHANGE_ wiki command use relative paths now
 - 0.4 2018-09-06:
-	- CHANGE update to Kakoune v2018.09.04
-- 0.5 2018-09-11
-	- FIX tag expansion in middle of the line
-	- FIX new line causing unwanted tag expansion
-	- FIX refactoring of try statements in NormalMode hooks and commands
-- master
-    - CHANGE new directory layout (breaking: update path in source command in `kakrc`)
+	- _CHANGE_ update to Kakoune v2018.09.04 **breaking**
+- 0.5 2018-09-11:
+	- _FIX_ tag expansion in middle of the line
+	- _FIX_ new line causing unwanted tag expansion
+	- _FIX_ refactoring of try statements in NormalMode hooks and commands
+- 0.6 2018-10-27:
+    - _CHANGE_ new directory layout (**breaking**: update path in source command in `kakrc`)
+    - _CHANGE_ Kakoune v2018.10.27 compatibility **breaking**
+    - _CHANGE_ Changelog formatting
+    - _FIX_ update README, fix spelling mistakes
+
 
 [plug.kak]: https://github.com/andreyorst/plug.kak
