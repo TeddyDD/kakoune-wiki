@@ -2,7 +2,7 @@
 
 ![icon](kakoune-wiki.png)
 
-Personal wiki plugin for [**Kakoune**](http://kakoune.org/)
+Personal wiki plugin for [**Kakoune**][kakoune]
 
 ## Motivation
 
@@ -19,6 +19,7 @@ able to create and link other notes during writing as well.
 the file system
 - quickly jump between wiki pages. Just point on link and press enter
 - create interconnected pages with `@pagename` syntax that expands to standard Markdown links
+- insert images with `@path/to/image.png` syntax
 - toggle Markdown check-boxes with `<ret>` key in normal mode
 - wiki is just bunch of Markdown files, you can process/edit them further
 with tools like [pandoc](https://pandoc.org/),
@@ -41,11 +42,7 @@ your kakrc:
 wiki_setup `/home/user/my/wiki/directory`
 ```
 
-**This plugin was tested on Kakoune v2018.09.04** on Linux. In case of
-any problems feel free to open an issue. I do not support builds from
-Kakoune master branch, **only last stable releases of Kakoune will be
-supported**. Releases are tagged with compatible Kakoune version, check
-`git tag -l -n9`.
+**only last stable releases of Kakoune is supported**
 
 ## Usage
 
@@ -92,6 +89,13 @@ expands to
 If page referenced by `@tag` does not exist it will be created. Directories
 will be created as well.
 
+### Images
+
+To insert image from your wiki directory use `@!image` syntax. Type
+`@!image.jpg<ret>` to insert `![image.jpg](image.jpg)`. There is also
+`wiki_expand_pic` command (`@!image` tag must be selected). You can use
+subdirectories like in `@tag`.
+
 ### Checkboxes
 
 You can toggle Markdown checkboxes on and off using `<ret>` key in normal mode or `wiki_toggle_checkbox` command:
@@ -126,6 +130,14 @@ You can toggle Markdown checkboxes on and off using `<ret>` key in normal mode o
     - _CHANGE_ Kakoune v2018.10.27 compatibility **breaking**
     - _CHANGE_ Changelog formatting
     - _FIX_ update README, fix spelling mistakes
-
+- 0.7 2019-01-04:
+    - _CHANGE_ update README
+    - _CHANGE_ small refactoring of wiki command
+    - _FIX_ following links when pwd is not in wiki_path
+    - _FIX_ following links from wiki_path subdirectories
+    - _FIX_ expanding tags won't create new line anymore
+    - _ADD_ wiki_expand_pic and corresponding syntax `@!path/to/pic.jpg` (based on [PR #2])
 
 [plug.kak]: https://github.com/andreyorst/plug.kak
+[kakoune]: http://kakoune.org/
+[PR #2]: https://github.com/TeddyDD/kakoune-wiki/pull/2
