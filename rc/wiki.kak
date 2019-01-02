@@ -82,9 +82,9 @@ define-command -params 1 -hidden \
 -docstring %{ wiki_new_page [name]: create new wiki page in wiki_path if not exists } \
 wiki_new_page %{
     nop %sh{
-        dir="$(dirname $kak_opt_wiki_path/$1.md)"
-        mkdir -p "$dir"
-        touch "$kak_opt_wiki_path/$1.md"
+        file="$kak_opt_wiki_path/${1%.md}"
+        mkdir -p "$(dirname $file)"
+        touch "${file}.md"
     }
 }
 
