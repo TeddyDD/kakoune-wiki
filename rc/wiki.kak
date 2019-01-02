@@ -30,9 +30,13 @@ define-command wiki_enable %{
     add-highlighter buffer/wiki/tag regex '\B@\S+' 0:link
     add-highlighter buffer/wiki/link regex '\[\w+\]' 0:link
     hook buffer InsertKey '<ret>' -group wiki %{
-        evaluate-commands %{ try %{ 
+        evaluate-commands %{ try %{
             execute-keys -draft %{
-                2h<a-b><a-k>\A@\w+<ret>
+                <a-b><a-k>\A@!\w+<ret>
+                :wiki_expand_pic<ret>
+            }} catch %{
+            execute-keys -draft %{
+                <a-b><a-k>\A@\w+<ret>
                 :wiki_expand_tag<ret>
             }
             execute-keys <esc>hi
