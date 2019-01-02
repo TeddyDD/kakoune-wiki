@@ -39,8 +39,8 @@ define-command wiki_enable %{
                 <a-b><a-k>\A@\w+<ret>
                 :wiki_expand_tag<ret>
             }
-            execute-keys <esc>hi
-        } }
+            execute-keys <backspace>
+        }}
     }
     hook buffer NormalKey '<ret>' -group wiki %{
         try %{ wiki_follow_link }
