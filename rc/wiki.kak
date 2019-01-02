@@ -99,7 +99,9 @@ define-command wiki_follow_link \
             <esc><a-a>c\[,\)<ret><a-:>
             <a-i>b
         }
-        evaluate-commands -try-client %opt{jumpclient} edit -existing %sh{ echo "$kak_opt_wiki_path/$kak_selection" }
+        evaluate-commands -try-client %opt{jumpclient} edit -existing %sh{
+            echo "${kak_buffile%/*.md}/$kak_selection"
+        }
         try %{ focus %opt{jumpclient} }
     }
 }
