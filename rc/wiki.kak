@@ -65,6 +65,19 @@ somewhere on @tag and @tag should not contain extension } %{
     }
 }
 
+define-command wiki_expand_pic \
+-docstring %{ Expands images from @!filename.png form to ![filename.png](filename.png)} %{
+    evaluate-commands %sh{
+        this="$kak_buffile"
+        tag=$(echo $kak_selection | sed -e 's/^\@!//')
+        other="$kak_opt_wiki_path/$tag"
+        relative=$(eval "$kak_opt_wiki_relative_path_program" "$other" $(dirname "$this"))
+        # sanity check
+        echo execute-keys -draft '<a-k>^@\+[^@!]+'
+        echo execute-keys "c![$tag]($relative)<esc>"
+    }
+}
+
 define-command -params 1 -hidden \
 -docstring %{ wiki_new_page [name]: create new wiki page in wiki_path if not exists } \
 wiki_new_page %{
