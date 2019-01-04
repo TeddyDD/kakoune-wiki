@@ -16,15 +16,14 @@ able to create and link other notes during writing as well.
 ## Features
 
 - find and edit any page using wiki command, no matter where you are in
-the file system
-- quickly jump between wiki pages. Just point on link and press enter
-- create interconnected pages with `@pagename` syntax that expands to standard Markdown links
+  the file system
+- quickly jump between wiki pages. Just point at link and press enter
+- create interconnected pages with `@pagename` syntax that expands to standard
+  Markdown links
 - insert images with `@path/to/image.png` syntax
 - toggle Markdown check-boxes with `<ret>` key in normal mode
-- wiki is just bunch of Markdown files, you can process/edit them further
-with tools like [pandoc](https://pandoc.org/),
-[MdWiki](http://dynalon.github.io/mdwiki/),
-[markor](https://github.com/gsantner/markor) or any text editor. No vendor lock-ins
+- wiki is just bunch of Markdown files, you can process/edit them further with
+  tools like [pandoc], [MdWiki], [markor] or any text editor. No vendor lock-ins
 - minimal and simple — only essential features, script around 100 LOC
 
 ## Installation
@@ -42,7 +41,7 @@ your kakrc:
 wiki_setup `/home/user/my/wiki/directory`
 ```
 
-**only last stable releases of Kakoune is supported**
+**Only last stable releases of Kakoune is supported**
 
 ## Usage
 
@@ -56,6 +55,7 @@ wiki cookies.md
 
 This command creates file `cookies.md` in your wiki directory. You can also use
 subdirectories for organization purpose. To create new page in subdirectory:
+
 ```
 wiki recipes/cookies.md
 ```
@@ -64,7 +64,8 @@ Note that path is always relative to the wiki root directory.
 
 ### Edit existing page
 
-To edit wiki page use (you guessed it) `wiki` command. You can press `TAB` key for autocompletion:
+To edit wiki page use (you guessed it) `wiki` command. You can press `TAB`
+key for autocompletion:
 
 ```
 wiki recipes/<TAB> # cycle through available pages
@@ -81,13 +82,15 @@ path is always relative to **wiki root directory**, however expanded link
 
 ```
 # editing recipes/cookies.md
-@chocolate<ret> 
+@chocolate<ret>
 expands to
 [chocolate](../chocolate.md)
 ```
 
 If page referenced by `@tag` does not exist it will be created. Directories
 will be created as well.
+
+If you press `<ret>` with cursor on link, Kakoune will follow link.
 
 ### Images
 
@@ -98,7 +101,8 @@ subdirectories like in `@tag`.
 
 ### Checkboxes
 
-You can toggle Markdown checkboxes on and off using `<ret>` key in normal mode or `wiki_toggle_checkbox` command:
+You can toggle Markdown checkboxes on and off using `<ret>` key in normal
+mode or `wiki_toggle_checkbox` command:
 
 ```
 # TODO
@@ -109,35 +113,40 @@ You can toggle Markdown checkboxes on and off using `<ret>` key in normal mode o
 
 ```
 
-## Changelog 
+## Changelog
 
 - 0.1:
-	- initial release
+  - initial release
 - 0.2:
-	- _ADD_ toggle checkbox feature
+  - _ADD_ toggle checkbox feature
 - 0.3 2018-07-15:
-	- _ADD_ support for nested directories	
-	- _REMOVE_ hide wiki_new_page command, use wiki instead
-	- _CHANGE_ wiki command use relative paths now
+  - _ADD_ support for nested directories
+  - _REMOVE_ hide wiki_new_page command, use wiki instead
+  - _CHANGE_ wiki command use relative paths now
 - 0.4 2018-09-06:
-	- _CHANGE_ update to Kakoune v2018.09.04 **breaking**
+  - _CHANGE_ update to Kakoune v2018.09.04 **breaking**
 - 0.5 2018-09-11:
-	- _FIX_ tag expansion in middle of the line
-	- _FIX_ new line causing unwanted tag expansion
-	- _FIX_ refactoring of try statements in NormalMode hooks and commands
+  - _FIX_ tag expansion in middle of the line
+  - _FIX_ new line causing unwanted tag expansion
+  - _FIX_ refactoring of try statements in NormalMode hooks and commands
 - 0.6 2018-10-27:
-    - _CHANGE_ new directory layout (**breaking**: update path in source command in `kakrc`)
-    - _CHANGE_ Kakoune v2018.10.27 compatibility **breaking**
-    - _CHANGE_ Changelog formatting
-    - _FIX_ update README, fix spelling mistakes
+  - _CHANGE_ new directory layout (**breaking**: update path in source
+  command in `kakrc`)
+  - _CHANGE_ Kakoune v2018.10.27 compatibility **breaking**
+  - _CHANGE_ Changelog formatting
+  - _FIX_ update README, fix spelling mistakes
 - 0.7 2019-01-04:
-    - _CHANGE_ update README
-    - _CHANGE_ small refactoring of wiki command
-    - _FIX_ following links when pwd is not in wiki_path
-    - _FIX_ following links from wiki_path subdirectories
-    - _FIX_ expanding tags won't create new line anymore
-    - _ADD_ wiki_expand_pic and corresponding syntax `@!path/to/pic.jpg` (based on [PR #2])
+  - _CHANGE_ update README
+  - _CHANGE_ small refactoring of wiki command
+  - _FIX_ following links when pwd is not in wiki_path
+  - _FIX_ following links from wiki_path subdirectories
+  - _FIX_ expanding tags won't create new line anymore
+  - _ADD_ wiki_expand_pic and corresponding syntax `@!path/to/pic.jpg`
+  (based on [PR #2])
 
 [plug.kak]: https://github.com/andreyorst/plug.kak
 [kakoune]: http://kakoune.org/
 [PR #2]: https://github.com/TeddyDD/kakoune-wiki/pull/2
+[pandoc]: https://pandoc.org/
+[MdWiki]: http://dynalon.github.io/mdwiki/
+[markor]: https://github.com/gsantner/markor
