@@ -30,12 +30,13 @@ define-command wiki_enable %{
             execute-keys -draft %{
                 <a-b><a-k>\A@!\w+<ret>
                 :wiki_expand_pic<ret>
-            }} catch %{
-            execute-keys -draft %{
-                <a-b><a-k>\A@\w+<ret>
-                :wiki_expand_tag<ret>
+        }} catch %{
+            try %{ execute-keys -draft %{
+                    <a-b><a-k>\A@\w+<ret>
+                    :wiki_expand_tag<ret>
+                }
+                execute-keys <backspace>
             }
-            execute-keys <backspace>
         }}
     }
     hook buffer NormalKey '<ret>' -group wiki %{
