@@ -39,6 +39,8 @@ your kakrc:
 
 ```
 wiki_setup `/home/user/my/wiki/directory`
+# or
+wiki_setup %sh{ echo $HOME/wiki }
 ```
 
 **Only last stable releases of Kakoune is supported**
@@ -143,6 +145,9 @@ mode or `wiki_toggle_checkbox` command:
   - _FIX_ expanding tags won't create new line anymore
   - _ADD_ wiki_expand_pic and corresponding syntax `@!path/to/pic.jpg`
   (based on [PR #2])
+- 0.8 2020-02-03:
+  - __CHANGE__ Kakoune v2020.01.16 compatibility **breaking**
+  - __CHANGE__ `wiki_setup` rename to `wiki-setup`
 
 [plug.kak]: https://github.com/andreyorst/plug.kak
 [kakoune]: http://kakoune.org/

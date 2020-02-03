@@ -4,7 +4,7 @@ declare-option -docstring %{ Path to wiki directory } str wiki_path
 declare-option -hidden str wiki_relative_path_program %{ perl -e 'use File::Spec; print File::Spec->abs2rel(@ARGV) . "\n"' }
 
 
-define-command -hidden -params 1 wiki_setup %{
+define-command -hidden -params 1 wiki-setup %{
     evaluate-commands %sh{
         echo "set-option global wiki_path $1"
         echo "hook global BufCreate $1/.+\.md %{ wiki_enable }"
@@ -51,9 +51,9 @@ define-command wiki_disable %{
 }
 
 define-command wiki_expand_tag \
--docstring %{ Expands tag from @filename form to [filename](filename.md)
-Creates empty markdown file in wiki_path if not exist. Selection must be
-somewhere on @tag and @tag should not contain extension } %{
+    -docstring %{ Expands tag from @filename form to [filename](filename.md)
+    Creates empty markdown file in wiki_path if not exist. Selection must be
+    somewhere on @tag and @tag should not contain extension } %{
     evaluate-commands %sh{
         this="$kak_buffile"
         tag=$(echo $kak_selection | sed -e 's/^\@//')
@@ -91,7 +91,7 @@ wiki_new_page %{
 
 define-command wiki_follow_link \
 -docstring %{ Follow markdown link and open file if exists } %{
-    evaluate-commands %{ 
+    evaluate-commands %{
         execute-keys %{
             <esc><a-a>c\[,\)<ret><a-:>
             <a-i>b
