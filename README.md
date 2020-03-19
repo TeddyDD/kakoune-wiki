@@ -38,9 +38,9 @@ Then you have to choose directory for your wiki. Call following command from
 your kakrc:
 
 ```
-wiki_setup `/home/user/my/wiki/directory`
+wiki-setup `/home/user/my/wiki/directory`
 # or
-wiki_setup %sh{ echo $HOME/wiki }
+wiki-setup %sh{ echo $HOME/wiki }
 ```
 
 **Only last stable releases of Kakoune is supported**
