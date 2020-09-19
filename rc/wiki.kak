@@ -97,7 +97,7 @@ define-command wiki_follow_link \
             <a-i>b
         }
         evaluate-commands -try-client %opt{jumpclient} edit -existing %sh{
-            echo "${kak_buffile%/*.md}/$kak_selection"
+            echo "'${kak_buffile%/*.md}/$kak_selection'"
         }
         try %{ focus %opt{jumpclient} }
     }
