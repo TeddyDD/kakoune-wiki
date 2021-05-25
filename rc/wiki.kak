@@ -1,8 +1,150 @@
-declare-option -docstring %{ Path to wiki directory } str wiki_path
+declare-option -docstring "Path to wiki directory" \
+    str wiki_path
 
-# program that outputs relative path given two absolute as params
-declare-option -hidden str wiki_relative_path_program %{ perl -e 'use File::Spec; print File::Spec->abs2rel(@ARGV) . "\n"' }
+set-option global wiki_path /tmp/wiki
 
+# python_relpath is loaded from wiki.sh
+declare-option -hidden \
+    -docstring "command that returns relative path between two files" \
+    str wiki_relative_path python_relpath
+
+declare-option -hidden \
+    str wiki_source %val{source}
+
+declare-option -hidden \
+	completions wiki_completers
+
+# select [[mediawiki style link|mediawiki]]
+define-command -hidden wiki-select-mediawiki-link %{
+    execute-keys <a-a>c\[\[,\]\]<ret>
+}
+
+define-command -hidden wiki-select-markdown-link %{
+    execute-keys <a-a>c\[,\)<ret><a-k>\[.+?\]\(.+?\)<ret>
+}
+
+define-command -hidden -params 1 wiki-touch-page %{
+    nop %sh{
+        cd "$kak_opt_wiki_path" || echo fail "Wiki path not exists"
+        dir="${1%/*}"
+        [ ! -d "$dir" -a ! -n "$dir" ] && mkdir -p "$dir"
+        touch "${1%.md}.md"
+    }
+}
+
+define-command -params 1.. -docstring 'grep wiki path' wiki-grep %{
+}
+
+define-command -shell-script-candidates %{
+    . "${kak_opt_wiki_source%/*}/wiki.sh"
+    list_all_pages "$kak_opt_wiki_path" | clean_find_result
+} \
+-docstring 'Open or create a wiki page' \
+-params 1.. \
+wiki-edit %{
+    evaluate-commands %{
+        wiki-touch-page "%arg{@}"
+        wiki-edit-impl "%arg{@}"
+    }
+}
+
+define-command -hidden -params 1.. wiki-edit-impl %{
+	evaluate-commands %sh{
+    . "${kak_opt_wiki_source%/*}/wiki.sh"
+	get_edit_command "$kak_opt_wiki_path" "$@"
+	}
+}
+
+
+# Test if we are in unfinished mediawiki style link
+define-command -hidden wiki-test-unfinished-mediawiki-link %{
+    execute-keys -draft [[H<a-k>\[\[<ret> _ <a-K>\n<ret>
+}
+
+# Test if we are in unfinished markdown style link
+define-command -hidden wiki-test-unfinished-md-link %{
+    execute-keys -draft [(HM<a-k>\[.+\]\(.*<ret> _ <a-K>\n<ret>
+}
+
+define-command -hidden wiki-select-unfinished-md-link %{
+	execute-keys <a-[>(_
+}
+
+define-command -hidden wiki-select-unfinished-mediawiki-link %{
+	execute-keys <a-[>[H<a-K>\A\[\[<ret>L_
+	try %{ execute-keys s\|\K.+\z<ret>_ }
+}
+
+define-command -hidden wiki-populate-completion-header %{
+    set-option window wiki_completers \
+                    "%val{cursor_line}.%val{cursor_column}+%val{selection_length}@%val{timestamp}"
+}
+
+define-command -hidden wiki-populate-mediawiki-completion %{
+	evaluate-commands %sh{
+        . "${kak_opt_wiki_source%/*}/wiki.sh"
+        printf "set-option -add window wiki_completers %s\n" \
+            "$(mediawiki_completions "$kak_opt_wiki_path" "$kak_selection")"
+	}
+}
+
+define-command -hidden wiki-populate-md-completion %{
+	evaluate-commands %sh{
+        . "${kak_opt_wiki_source%/*}/wiki.sh"
+        [ -e "$kak_buffile" ] || exit 0
+        printf "set-option -add window wiki_completers %s\n" \
+            "$(md_completions "$kak_opt_wiki_path" "$kak_selection" "$kak_buffile")"
+	}
+}
+
+define-command -hidden wiki-populate-md-completion-async %{
+    nop %sh{
+        (
+            . "${kak_opt_wiki_source%/*}/wiki.sh"
+            header="${kak_cursor_line}.${kak_cursor_column}+${kak_selection_length}@${kak_timestamp}"
+            compl=$(md_completions "$kak_opt_wiki_path" "$kak_selection" "$kak_buffile")
+            kak_escape evaluate-commands -client ${kak_client} set-option window wiki_completers ${header} ${compl} |
+                kak -p "${kak_session}"
+        ) > /dev/null 2>&1 < /dev/null &
+    }
+}
+
+provide-module markdown-wiki %{
+
+}
+
+# Hooks
+
+hook global WinSetOption filetype=markdown-wiki %{
+    require-module markdown-wiki
+    set-option window completers option=wiki_completers %opt{completers}
+    hook window -group wiki-autocomplete InsertIdle .* %{
+        try %{
+            wiki-test-unfinished-mediawiki-link
+            evaluate-commands -draft %{
+                wiki-select-unfinished-mediawiki-link
+                wiki-populate-completion-header
+                wiki-populate-mediawiki-completion
+            }
+        } catch %{
+			wiki-test-unfinished-md-link
+			evaluate-commands -draft %{
+    			wiki-select-unfinished-md-link
+    			wiki-populate-md-completion-async
+			}
+        } catch nop
+    }
+
+    hook -once -always window WinSetOption filetype=.* %{
+        # remove-hooks window awk-.+
+        evaluate-commands %sh{
+            printf "set-option window completers %s\n" \
+                $(printf %s "${kak_opt_completers}" | sed -e "s/'option=wiki_completers'//g")
+        }
+    }
+}
+
+#### OLD
 
 define-command -hidden -params 1 wiki-setup %{
     evaluate-commands %sh{
