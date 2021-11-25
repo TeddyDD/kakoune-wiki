@@ -50,6 +50,32 @@ define-command wiki-disable-autocomplete -docstring "Disable wiki completion" %{
 }
 
 
+# Convert links
+
+define-command -docstring %{
+    Select all [[mediawiki]] style links
+    Works only if selection_length == 1, otherwise it's nop
+} wiki-select-mediawiki-link %{
+    evaluate-commands -itersel %sh{
+        [ "$kak_selection_length" -eq 1 ] &&
+            printf "execute-keys '%s'\n" '<a-a>c\[\[,\]\]<ret><a-K>\n<ret>'
+    }
+}
+
+define-command wiki-convert-link-to-md %{
+    wiki-select-mediawiki-link
+    evaluate-commands -save-regs '|' %{
+        set-register '|' %{
+            : $kak_session
+            : $kak_opt_wiki_path
+            : $kak_buffile
+            "$kak_opt_wiki_helper_cli" -convert-to-md
+        }
+        execute-keys '|<ret>'
+    }
+}
+
+
 # Helper
 ########
 
@@ -61,9 +87,9 @@ define-command -override -params 1.. wiki-helper %{
        export kak_session="$kak_session"
        export kak_client="$kak_client"
        export kak_buffile="$kak_buffile"
-       helper_cmd="$@"
-      
-       "$kak_opt_wiki_helper_cli" $helper_cmd | kak -p "$kak_session"
+
+       # shellcheck disable=SC2086
+       "$kak_opt_wiki_helper_cli" $@ | kak -p "$kak_session"
     ) > /dev/null &
     }
 }

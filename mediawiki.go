@@ -6,6 +6,33 @@ import (
 	"strings"
 )
 
+type mediaWikiLink struct {
+	addres string
+	alt    string
+}
+
+func newMediaWikiLink(from string) mediaWikiLink {
+	from = strings.TrimSpace(from)
+	from = strings.TrimPrefix(from, "[[")
+	from = strings.TrimSuffix(from, "]]")
+	parts := strings.Split(from, "|")
+	l := len(parts)
+	switch {
+	case l == 0:
+		return mediaWikiLink{}
+	case l == 1:
+		return mediaWikiLink{
+			addres: parts[0],
+			alt:    parts[0],
+		}
+	default:
+		return mediaWikiLink{
+			addres: strings.Join(parts[1:], ""),
+			alt:    parts[0],
+		}
+	}
+}
+
 func cleanPrefix(prefix string) string {
 	// completion is case insensitive
 	prefix = strings.ToLower(prefix)
