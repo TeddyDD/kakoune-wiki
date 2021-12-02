@@ -10,6 +10,8 @@ type config struct {
 
 	CommandFifo  string `env:"kak_command_fifo"`
 	ResponseFifo string `env:"kak_response_fifo"`
+
+	cwd string
 }
 
 func requireSet(env, msg string) {

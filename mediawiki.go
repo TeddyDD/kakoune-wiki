@@ -1,7 +1,11 @@
 package main
 
 import (
+	"bufio"
+	"errors"
+	"fmt"
 	"io/fs"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -9,6 +13,13 @@ import (
 type mediaWikiLink struct {
 	addres string
 	alt    string
+}
+
+func (l mediaWikiLink) String() string {
+	if l.alt != "" {
+		return fmt.Sprintf("[[%s|%s]]", l.alt, l.addres)
+	}
+	return fmt.Sprintf("[[%s]]", l.addres)
 }
 
 func newMediaWikiLink(from string) mediaWikiLink {
@@ -69,5 +80,45 @@ func completeMediawikiCmd(cfg *config, prefix string) error {
 
 	printCompletion(cfg, completions)
 
+	return nil
+}
+
+func convertToMediawikiCmd(cfg *config) error {
+	scan := bufio.NewScanner(os.Stdin)
+	scan.Split(bufio.ScanLines)
+	var line string
+	if scan.Scan() {
+		line = scan.Text()
+	} else {
+		return errors.New("no input")
+	}
+
+	link, err := newMdLink(line)
+	if err != nil {
+		return err
+	}
+
+	mwLink := &mediaWikiLink{
+		addres: link.addres,
+		alt:    link.alt,
+	}
+
+	// if internal link then
+	if link.isInternal() {
+		bufDir := filepath.Dir(cfg.Buffile)
+		target := filepath.Join(bufDir, link.addres)
+		target = strings.TrimSuffix(target, filepath.Ext(target))
+
+		target, err := filepath.Rel(cfg.cwd, target)
+		if err != nil {
+			return err
+		}
+
+		mwLink.addres = target
+		mwLink.alt = strings.TrimSuffix(mwLink.alt, filepath.Ext(mwLink.alt))
+	}
+
+	// print converted mediawiki link
+	fmt.Print(mwLink)
 	return nil
 }

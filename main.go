@@ -12,7 +12,8 @@ var (
 	flagInit     bool
 	flagRelative bool
 
-	flagConvertToMd bool
+	flagConvertToMd        bool
+	flagConvertToMediaWiki bool
 
 	flagCompleteMediawikiLink string
 	flagCompleteMarkdownLink  string
@@ -31,6 +32,7 @@ func main() {
 	flag.BoolVar(&flagInit, "init", false, "print Kakoune init script")
 	flag.BoolVar(&flagRelative, "relative-path", false, "show relative path between DST and SRC")
 	flag.BoolVar(&flagConvertToMd, "convert-to-md", false, "convert mediawiki link from stdin to md link")
+	flag.BoolVar(&flagConvertToMediaWiki, "convert-to-mediawiki", false, "convert md linkt form stdin to mediawiki")
 
 	flag.StringVar(&flagCompleteMediawikiLink, "complete-mediawiki", "", "prefix")
 	flag.StringVar(&flagCompleteMarkdownLink, "complete-md-link", "", "prefix")
@@ -40,6 +42,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	cfg.cwd = cwd
 
 	switch {
 	case flagCompleteMediawikiLink != "":
@@ -48,5 +55,10 @@ func main() {
 		completeMarkdownLinkCmd(cfg, flagCompleteMarkdownLink)
 	case flagConvertToMd:
 		convertToMdCmd(cfg)
+	case flagConvertToMediaWiki:
+		err := convertToMediawikiCmd(cfg)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }

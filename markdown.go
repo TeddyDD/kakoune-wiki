@@ -7,8 +7,50 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 )
+
+type mdLink struct {
+	alt    string
+	addres string
+}
+
+var protocolRegexp = regexp.MustCompile(`^[\w]+:[/]{2}`)
+
+func (l mdLink) isInternal() bool {
+	// no absolute path
+	if strings.HasPrefix(l.addres, "/") {
+		return false
+	}
+	// no protocol
+	if protocolRegexp.MatchString(l.addres) {
+		return false
+	}
+
+	return true
+}
+
+func (l mdLink) String() string {
+	return fmt.Sprintf("[%s](%s)", l.alt, l.addres)
+}
+
+var linkRegexp = regexp.MustCompile(`\[(.*)\]\((.*)\)`)
+
+func newMdLink(in string) (link mdLink, err error) {
+	groups := linkRegexp.FindStringSubmatch(in)
+	if groups == nil || len(groups) != 3 {
+		return link, errors.New("wrong input")
+	}
+
+	link.alt = groups[1]
+	link.addres = groups[2]
+
+	if link.alt == "" {
+		link.alt = link.addres
+	}
+	return link, nil
+}
 
 func completeMarkdownLinkCmd(cfg *config, link string) error {
 	completions := []string{}

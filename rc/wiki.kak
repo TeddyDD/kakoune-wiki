@@ -75,6 +75,29 @@ define-command wiki-convert-link-to-md %{
     }
 }
 
+define-command -docstring %{
+    Select [md](link.md) style links
+    Works only if selection_length == 1, otherwise it's nop
+} wiki-select-md-link %{
+    evaluate-commands -itersel %sh{
+        [ "$kak_selection_length" -eq 1 ] &&
+            printf "execute-keys '%s'\n" '<a-a>c\[,\)<ret><a-k>\[[^\n]*\]\([^\n]+\)<ret>'
+    }
+}
+
+define-command wiki-convert-link-to-mediawiki %{
+    wiki-select-md-link
+    evaluate-commands -save-regs '|' %{
+        set-register '|' %{
+            : $kak_session
+            : $kak_opt_wiki_path
+            : $kak_buffile
+            "$kak_opt_wiki_helper_cli" -convert-to-mediawiki
+        }
+        execute-keys '|<ret>'
+    }
+}
+
 
 # Helper
 ########
