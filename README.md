@@ -28,11 +28,33 @@ able to create and link other notes during writing as well.
 
 ## Installation
 
-You can either:
+**Only last stable releases of Kakoune is supported**
+
+### Dependencies
+
+To build helper from source you will need Go compiler 1.17.5 or newer and Make.
+
+### [plug.kak]
+
+```kak
+plug "TeddyDD/kakoune-wiki" do %{
+	# Optional, only if you have Go compiler and $GOPATH/bin in $PATH
+	make go-install
+} config %{
+	# Your configuration here
+}
+```
+
+### Manual
+
+Source `rc/wiki.kak` or put it into autoloads directory. Ensure that
+helper binary is in `PATH` or set `wiki_helper_cli` option to path to the
+`kakoune-wiki` program.
 
 - load `rc/wiki.kak` from your `kakrc`: `source path/to/rc/wiki.kak`
-- put `rc/wiki.kak` in your autoloads directory `~/.config/kak/autoload/`
-- use [plug.kak] - plugin manager
+- or put `rc/wiki.kak` in your autoloads directory `~/.config/kak/autoload/`
+
+## Setup
 
 Then you have to choose directory for your wiki. Call following command from
 your kakrc:
@@ -42,8 +64,6 @@ wiki-setup `/home/user/my/wiki/directory`
 # or
 wiki-setup %sh{ echo $HOME/wiki }
 ```
-
-**Only last stable releases of Kakoune is supported**
 
 ## Usage
 
@@ -114,40 +134,6 @@ mode or `wiki_toggle_checkbox` command:
 - [X] bar # result
 
 ```
-
-## Changelog
-
-- 0.1:
-  - initial release
-- 0.2:
-  - _ADD_ toggle checkbox feature
-- 0.3 2018-07-15:
-  - _ADD_ support for nested directories
-  - _REMOVE_ hide wiki_new_page command, use wiki instead
-  - _CHANGE_ wiki command use relative paths now
-- 0.4 2018-09-06:
-  - _CHANGE_ update to Kakoune v2018.09.04 **breaking**
-- 0.5 2018-09-11:
-  - _FIX_ tag expansion in middle of the line
-  - _FIX_ new line causing unwanted tag expansion
-  - _FIX_ refactoring of try statements in NormalMode hooks and commands
-- 0.6 2018-10-27:
-  - _CHANGE_ new directory layout (**breaking**: update path in source
-  command in `kakrc`)
-  - _CHANGE_ Kakoune v2018.10.27 compatibility **breaking**
-  - _CHANGE_ Changelog formatting
-  - _FIX_ update README, fix spelling mistakes
-- 0.7 2019-01-04:
-  - _CHANGE_ update README
-  - _CHANGE_ small refactoring of wiki command
-  - _FIX_ following links when pwd is not in wiki_path
-  - _FIX_ following links from wiki_path subdirectories
-  - _FIX_ expanding tags won't create new line anymore
-  - _ADD_ wiki_expand_pic and corresponding syntax `@!path/to/pic.jpg`
-  (based on [PR #2])
-- 0.8 2020-02-03:
-  - __CHANGE__ Kakoune v2020.01.16 compatibility **breaking**
-  - __CHANGE__ `wiki_setup` rename to `wiki-setup`
 
 [plug.kak]: https://github.com/andreyorst/plug.kak
 [kakoune]: http://kakoune.org/
