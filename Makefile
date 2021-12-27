@@ -10,6 +10,10 @@ CLEAN = kakoune-wiki cover.out cover.html
 kakoune-wiki: $(GO_FILES)
 	go build $(BUILD_FLAGS) -o $@ $(GO_ENTRY)
 
+.PHONY: install
+go-install:
+	go install $(BUILD_FLAGS) $(GO_ENTRY)
+
 .PHONY: test
 test: $(GO_FILES)
 	go test $(GO_TEST_FLAGS)
