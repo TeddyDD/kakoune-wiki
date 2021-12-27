@@ -50,8 +50,8 @@ func New(from string) Link {
 }
 
 func NewFrom(alt, addres string) Link {
-    return Link{
-    	addres: addres,
-    	alt:    alt,
-    }
+	return Link{
+		addres: addres,
+		alt:    alt,
+	}
 }

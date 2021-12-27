@@ -69,7 +69,7 @@ define-command wiki-convert-link-to-md %{
             : $kak_session
             : $kak_opt_wiki_path
             : $kak_buffile
-            "$kak_opt_wiki_helper_cli" -convert-to-md
+            "$kak_opt_wiki_helper_cli" -convert-link -to-markdown
         }
         execute-keys '|<ret>'
     }
@@ -92,7 +92,7 @@ define-command wiki-convert-link-to-mediawiki %{
             : $kak_session
             : $kak_opt_wiki_path
             : $kak_buffile
-            "$kak_opt_wiki_helper_cli" -convert-to-mediawiki
+            "$kak_opt_wiki_helper_cli" -convert-link -to-mediawiki
         }
         execute-keys '|<ret>'
     }
