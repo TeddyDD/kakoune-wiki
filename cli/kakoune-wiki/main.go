@@ -47,8 +47,9 @@ func main() {
 		}
 	case *cmdComplete:
 		if *flagCompleteMarkdownLink != "" {
+			a.RunCompleter(a.CompleteMarkdown, *flagCompleteMarkdownLink)
 		} else if *flagCompleteMediawikiLink != "" {
-			runCompleter(*flagCompleteMediawikiLink, a.CompleteMediaWiki)
+			a.RunCompleter(a.CompleteMediaWiki, *flagCompleteMediawikiLink)
 		}
 	}
 }
@@ -63,17 +64,6 @@ func readInput() (string, error) {
 		return "", errors.New("no input")
 	}
 	return line, nil
-}
-
-func runCompleter(prefix string, cmd app.CompleteFunc) {
-	completions, err := cmd(prefix)
-	if err != nil {
-		// TODO: report to *debug*
-		return
-	}
-
-	// TODO: kakoune command or kak -p
-	fmt.Println(completions)
 }
 
 // run command used as filter in kakoune (for example in |)

@@ -2,7 +2,8 @@ package app
 
 import "errors"
 
-func (a app) validBuffile() (string, error) {
+// buffileInWiki returns path to buffile relative to wiki root
+func (a app) buffileInWiki() (string, error) {
 	if a.config.Buffile == "" {
 		return "", errors.New("buffile not set")
 	}

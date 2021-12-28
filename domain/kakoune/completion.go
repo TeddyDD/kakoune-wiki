@@ -1,6 +1,9 @@
 package kakoune
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type CompletionEntry struct {
 	item    string
@@ -22,7 +25,16 @@ func (c CompletionEntry) SetCommand(cmd string) CompletionEntry {
 }
 
 func (c CompletionEntry) String() string {
-	return fmt.Sprintf("%s|%s|%s", c.item, c.command, c.hint)
+	return fmt.Sprintf("'%s|%s|%s'", c.item, c.command, c.hint)
 }
 
 type Completions []CompletionEntry
+
+func (c Completions) String() string {
+	tmp := []string{}
+
+	for i := range c {
+		tmp = append(tmp, c[i].String())
+	}
+	return strings.Join(tmp, " ")
+}

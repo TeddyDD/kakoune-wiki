@@ -123,12 +123,12 @@ define-command -override -hidden wiki-update-completion %{
             wiki-test-unfinished-md-link
             wiki-select-unfinished-md-link
             wiki-populate-completion-header
-            wiki-helper "-complete-md-link %val{selection}"
+            wiki-helper "-complete -markdown-prefix %val{selection}"
         } catch %{
             wiki-test-unfinished-mediawiki-link
             wiki-select-unfinished-mediawiki-link
             wiki-populate-completion-header
-            wiki-helper "-complete-mediawiki %val{selection}"
+            wiki-helper "-complete -mediawiki-prefix %val{selection}"
         } catch nop
     }
 }

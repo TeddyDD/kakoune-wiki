@@ -8,6 +8,8 @@ type Config struct {
 	WikiPath string `env:"kak_opt_wiki_path"`
 	Buffile  string `env:"kak_buffile"`
 
+	Debug bool `env:"wiki_debug"`
+
 	CommandFifo  string `env:"kak_command_fifo"`
 	ResponseFifo string `env:"kak_response_fifo"`
 }

@@ -8,7 +8,7 @@ import (
 func (a app) ConvertMediaWikiLinkToMarkdown(link string) (string, error) {
 	mediaWikiLink := mediawiki.New(link)
 
-	buffile, err := a.validBuffile()
+	buffile, err := a.buffileInWiki()
 	if err != nil {
 		return "", err
 	}
@@ -27,7 +27,7 @@ func (a app) ConvertMarkdownLinkToMediawiki(link string) (string, error) {
 		return "", err
 	}
 
-	buffile, err := a.validBuffile()
+	buffile, err := a.buffileInWiki()
 	if err != nil {
 		return "", err
 	}

@@ -1,6 +1,7 @@
 package wiki
 
 import (
+	"errors"
 	"fmt"
 	"path/filepath"
 	"strings"
@@ -32,6 +33,8 @@ func (w *Wiki) RelativeToWiki(path string) (string, error) {
 	}
 	return path, nil
 }
+
+var FileNotInWikiError = errors.New("file not in wiki path")
 
 // FileInWiki checks is given path (usually buffile) is in wiki.
 // TODO: move to Kakoune
