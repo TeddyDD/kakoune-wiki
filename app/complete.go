@@ -3,7 +3,6 @@ package app
 import (
 	"fmt"
 	"path/filepath"
-	"strings"
 
 	"github.com/TeddyDD/kakoune-wiki/domain/common"
 	"github.com/TeddyDD/kakoune-wiki/domain/kakoune"
@@ -38,7 +37,7 @@ func (a app) CompleteMediaWiki(prefix string) (kakoune.Completions, error) {
 			return nil, err
 		}
 
-		if strings.Contains(strings.ToLower(relative), strings.ToLower(prefix)) {
+		if common.Contains(relative, prefix) {
 			res = append(res, kakoune.NewCompletionEntry(
 				common.TrimExtension(relative, filepath.Ext(relative)),
 				relative,
@@ -73,10 +72,7 @@ func (a app) CompleteMarkdown(prefix string) (kakoune.Completions, error) {
 			return nil, err
 		}
 
-		if strings.Contains(
-			strings.ToLower(relToWikiRoot),
-			strings.ToLower(prefix),
-		) {
+		if common.Contains(relToWikiRoot, prefix) {
 			completions = append(
 				completions,
 				kakoune.NewCompletionEntry(

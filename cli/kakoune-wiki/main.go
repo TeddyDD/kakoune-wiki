@@ -42,7 +42,7 @@ func main() {
 	case *cmdConvertLink:
 		if *flagToMarkdown {
 			runFilter(a.ConvertMediaWikiLinkToMarkdown)
-		} else {
+		} else if *flagToMediawiki {
 			runFilter(a.ConvertMarkdownLinkToMediawiki)
 		}
 	case *cmdComplete:
