@@ -8,6 +8,9 @@ import (
 type app struct {
 	config *kakoune.Config
 	wiki   *wiki.Wiki
+
+	// files returns list of files in wiki dir
+	files func() ([]string, error)
 }
 
 func New(
@@ -24,5 +27,9 @@ func New(
 	return app{
 		config: config,
 		wiki:   wiki,
+
+		files: func() ([]string, error) {
+			return wiki.Files()
+		},
 	}
 }
