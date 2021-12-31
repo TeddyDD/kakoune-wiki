@@ -12,6 +12,9 @@ type Config struct {
 
 	CommandFifo  string `env:"kak_command_fifo"`
 	ResponseFifo string `env:"kak_response_fifo"`
+
+	TokenToComplete int `env:"kak_token_to_complete"`
+	PosInToken      int `env:"kak_pos_in_token"`
 }
 
 func FromEnv() (*Config, error) {

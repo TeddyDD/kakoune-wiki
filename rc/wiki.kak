@@ -1,6 +1,20 @@
 declare-option -docstring %{ Path to wiki directory } str wiki_path
 declare-option -docstring %{ Wiki helper executable path } str wiki_helper_cli kakoune-wiki
 
+# Public interface
+
+define-command -shell-script-completion %{
+    export kak_opt_wiki_path=$kak_opt_wiki_path
+    export kak_session=$kak_session
+    export kak_buffile=$kak_buffile
+    export kak_token_to_complete=$kak_token_to_complete
+    export kak_pos_in_token=$kak_pos_in_token
+    export wiki_debug=true
+    "$kak_opt_wiki_helper_cli" -complete -wiki-cmd $@
+} -params 1.. wiki %{
+    nop
+}
+
 # Completion
 ############
 
@@ -8,7 +22,7 @@ declare-option -hidden completions wiki_completions
 
 # Test if we are in unfinished mediawiki style link
 define-command -hidden wiki-test-unfinished-mediawiki-link %{
-    execute-keys -draft <a-[>c\[\[,\]<ret>_<a-K>\n<ret>
+    execute-keys -draft '<a-[>c\[\[,\]<ret>_<a-K>\n<ret>'
 }
 
 # Test if we are in unfinished markdown style link
@@ -35,7 +49,7 @@ define-command -hidden wiki-populate-completion-header %{
     # echo -debug compl %opt{wiki_completions}
 }
 
-define-command wiki-enable-autocompletion %{
+define-command wiki-enable-autocomplete %{
    set-option window completers option=wiki_completions
    hook -group wiki-autocomplete window InsertIdle .* %{
        wiki-update-completion
@@ -62,7 +76,9 @@ define-command -docstring %{
     }
 }
 
-define-command wiki-convert-link-to-md %{
+define-command -docstring %{
+	Convert [[link]] to [md](link)
+} wiki-convert-link-to-md %{
     wiki-select-mediawiki-link
     evaluate-commands -save-regs '|' %{
         set-register '|' %{
@@ -85,7 +101,9 @@ define-command -docstring %{
     }
 }
 
-define-command wiki-convert-link-to-mediawiki %{
+define-command -docstring %{
+	Convert [md](link) to [[mediawiki]]
+} wiki-convert-link-to-mediawiki %{
     wiki-select-md-link
     evaluate-commands -save-regs '|' %{
         set-register '|' %{
@@ -102,7 +120,7 @@ define-command wiki-convert-link-to-mediawiki %{
 # Helper
 ########
 
-define-command -override -params 1.. wiki-helper %{
+define-command -hidden -params 1.. wiki-helper %{
     nop %sh{
     (
        # set -x
@@ -117,7 +135,7 @@ define-command -override -params 1.. wiki-helper %{
     }
 }
 
-define-command -override -hidden wiki-update-completion %{
+define-command -hidden wiki-update-completion %{
     evaluate-commands -draft %{
         try %{
             wiki-test-unfinished-md-link
@@ -145,5 +163,5 @@ hook -group wiki global BufCreate "%opt{wiki_path}.*\.md$" %{
 # TODO: remove
 
 hook -group wiki global WinSetOption wiki_mode=true %{
-    wiki-enable-autocompletion
+    wiki-enable-autocomplete
 }

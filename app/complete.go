@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"path/filepath"
+	"strings"
 
 	"github.com/TeddyDD/kakoune-wiki/domain/common"
 	"github.com/TeddyDD/kakoune-wiki/domain/kakoune"
@@ -84,4 +85,61 @@ func (a app) CompleteMarkdown(prefix string) (kakoune.Completions, error) {
 
 	}
 	return completions, nil
+}
+
+// AllFiles returns list of wiki documents relative to wiki root
+func (a app) AllFiles() (out []string) {
+	files, err := a.wiki.Files()
+	if err != nil {
+		return nil
+	}
+	files = wiki.FilterMarkdown(files)
+	for i := range files {
+		relative, err := a.wiki.RelativeToWiki(files[i])
+		if err != nil {
+			return nil
+		}
+
+		out = append(out, relative)
+	}
+	return
+}
+
+var subcommands = []string{
+	"edit",
+	"jump",
+	"enable-autocomplete",
+	"disble-autocomplete",
+}
+
+func (a app) CompleteWikiCmd(in string) (out []string) {
+	tokens := strings.Split(in, " ")
+	if a.config.TokenToComplete == 0 {
+		return subcommands
+	}
+
+	a.Debugf("%+v", tokens)
+	a.Debugf("%d", a.config.TokenToComplete)
+	if tokens[0] == "edit" {
+		files := a.AllFiles()
+		all := false
+		var prefix string
+		if a.config.PosInToken == 0 && a.config.TokenToComplete == 1 {
+			all = true
+		} else {
+			prefix = tokens[a.config.TokenToComplete][0:a.config.PosInToken]
+		}
+
+		for i := range files {
+			relative, err := a.wiki.RelativeToWiki(files[i])
+			if err != nil {
+				return nil
+			}
+
+			if all || common.Contains(relative, prefix) {
+				out = append(out, relative)
+			}
+		}
+	}
+	return
 }

@@ -3,9 +3,11 @@ package main
 import (
 	"bufio"
 	"errors"
+	"flag"
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/TeddyDD/kakoune-wiki/app"
 	"github.com/TeddyDD/kakoune-wiki/domain/kakoune"
@@ -37,6 +39,7 @@ func main() {
 	}
 
 	a := app.New(config, w)
+	a.Debugf("debug on, config %+v", config)
 
 	switch {
 	case *cmdConvertLink:
@@ -46,10 +49,17 @@ func main() {
 			runFilter(a.ConvertMarkdownLinkToMediawiki)
 		}
 	case *cmdComplete:
-		if *flagCompleteMarkdownLink != "" {
+		switch {
+		case *flagCompleteMarkdownLink != "":
 			a.RunCompleter(a.CompleteMarkdown, *flagCompleteMarkdownLink)
-		} else if *flagCompleteMediawikiLink != "" {
+		case *flagCompleteMediawikiLink != "":
 			a.RunCompleter(a.CompleteMediaWiki, *flagCompleteMediawikiLink)
+		case *flagCompleteWikiCmd:
+			completions := a.CompleteWikiCmd(strings.Join(flag.Args(), " "))
+			fmt.Print(strings.Join(completions, "\n"))
+		case *flagAllFiles:
+			completions := a.AllFiles()
+			fmt.Print(strings.Join(completions, "\n"))
 		}
 	}
 }
