@@ -14,6 +14,9 @@ var (
 	flagAllFiles              = flag.Bool("all-markdown-files", false, "list all Markdown files in wiki")
 	flagCompleteMarkdownLink  = flag.String("markdown-prefix", "", "prefix for completion")
 	flagCompleteMediawikiLink = flag.String("mediawiki-prefix", "", "prefix for completion")
+
+	cmdEdit          = flag.Bool("edit", false, "return edit command")
+	flagEditMarkdown = flag.String("edit-markdown", "", "relative link to edit")
 )
 
 func setupFlags() {

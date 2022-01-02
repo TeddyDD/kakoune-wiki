@@ -61,6 +61,10 @@ func main() {
 			completions := a.AllFiles()
 			fmt.Print(strings.Join(completions, "\n"))
 		}
+	case *cmdEdit:
+		if *flagEditMarkdown != "" {
+			fmt.Print(a.EditMarkdown(*flagEditMarkdown))
+		}
 	}
 }
 

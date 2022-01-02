@@ -3,7 +3,6 @@ package app
 import (
 	"fmt"
 	"os/exec"
-	"regexp"
 
 	"github.com/TeddyDD/kakoune-wiki/domain/kakoune"
 	"github.com/TeddyDD/kakoune-wiki/domain/wiki"
@@ -38,8 +37,6 @@ func New(
 	}
 }
 
-var singleQuote = regexp.MustCompile(`'`)
-
 func (a app) Debug(msg string) {
 	if a.config == nil || !a.config.Debug {
 		return
@@ -61,9 +58,7 @@ func (a app) Debug(msg string) {
 	if err != nil {
 		panic(err)
 	}
-	msg = singleQuote.ReplaceAllString(msg, `''`)
-
-	fmt.Fprintf(in, "echo -debug wiki: '%s'", msg)
+	fmt.Fprint(in, kakoune.Debug(msg))
 }
 
 func (a app) Debugf(format string, val ...interface{}) {

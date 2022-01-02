@@ -3,17 +3,49 @@ declare-option -docstring %{ Wiki helper executable path } str wiki_helper_cli k
 
 # Public interface
 
-define-command -shell-script-completion %{
+define-command -shell-script-candidates %{
     export kak_opt_wiki_path=$kak_opt_wiki_path
-    export kak_session=$kak_session
-    export kak_buffile=$kak_buffile
-    export kak_token_to_complete=$kak_token_to_complete
-    export kak_pos_in_token=$kak_pos_in_token
-    export wiki_debug=true
-    "$kak_opt_wiki_helper_cli" -complete -wiki-cmd $@
-} -params 1.. wiki %{
-    nop
+    "$kak_opt_wiki_helper_cli" -complete -all-markdown-files | sed 's/.md$//'
+} -params 1 wiki-edit %{
+    edit "%sh{ echo ""${kak_opt_wiki_path%/}/${1%.md}.md"" }"
 }
+
+define-command wiki-jump %{
+    evaluate-commands -save-regs '^' %{
+        execute-keys -save-regs '' Z
+        try %{
+            execute-keys -save-regs '' z
+            wiki-select-md-link
+            execute-keys <a-i>(
+            evaluate-commands %{
+                wiki-helper "-edit -edit-markdown %val{selection}"
+            }
+        } catch %{
+            execute-keys -save-regs '' z
+            wiki-select-mediawiki-link
+            execute-keys <a-i>c\[\[,\]\]<ret>
+            wiki-select-unfinished-mediawiki-link
+            evaluate-commands %{ wiki-edit "%val{selection}" }
+        } catch %{
+            execute-keys -save-regs '' z
+            fail %val{error}
+        }
+    }
+}
+
+map global normal <ret> ': wiki-jump'
+
+# define-command -shell-script-completion %{
+#     export kak_opt_wiki_path=$kak_opt_wiki_path
+#     export kak_session=$kak_session
+#     export kak_buffile=$kak_buffile
+#     export kak_token_to_complete=$kak_token_to_complete
+#     export kak_pos_in_token=$kak_pos_in_token
+#     export wiki_debug=true
+#     "$kak_opt_wiki_helper_cli" -complete -wiki-cmd $@
+# } -params 1.. wiki %{
+#     nop
+# }
 
 # Completion
 ############
